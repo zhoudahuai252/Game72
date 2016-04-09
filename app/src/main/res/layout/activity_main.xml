@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bottom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context="com.myapp.game72.MainActivity">
+
+
+    <LinearLayout
+        android:id="@+id/ll_menuroot"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_menu"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.myapp.game72.common.widget.BottomMenu
+            android:id="@+id/moneymenu"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/bottom_menu"
+            android:layout_weight="1"
+            android:onClick="onChoose"
+            bottom:nomalpic="@mipmap/ic_menu_03_nor"
+            bottom:selpic="@mipmap/ic_menu_03_hl"
+            bottom:text="赚钱"/>
+
+        <com.myapp.game72.common.widget.BottomMenu
+            android:id="@+id/libaomenu"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/bottom_menu"
+            android:layout_weight="1"
+            android:onClick="onChoose"
+            bottom:nomalpic="@mipmap/ic_menu_01_nor"
+            bottom:selpic="@mipmap/ic_menu_01_hl"
+            bottom:text="礼包"/>
+
+        <com.myapp.game72.common.widget.BottomMenu
+            android:id="@+id/pengmenu"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/bottom_menu"
+            android:layout_weight="1"
+            android:onClick="onChoose"
+            bottom:nomalpic="@mipmap/ic_menu_02_nor"
+            bottom:selpic="@mipmap/ic_menu_02_hl"
+            bottom:text="好友"/>
+
+
+        <com.myapp.game72.common.widget.BottomMenu
+            android:id="@+id/memenu"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/bottom_menu"
+            android:layout_weight="1"
+            android:onClick="onChoose"
+            bottom:nomalpic="@mipmap/ic_menu_04_nor"
+            bottom:selpic="@mipmap/ic_menu_04_hl"
+            bottom:text="我"/>
+
+        <com.myapp.game72.common.widget.BottomMenu
+            android:id="@+id/chimenu"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/bottom_menu"
+            android:layout_weight="1"
+            android:onClick="onChoose"
+            bottom:nomalpic="@mipmap/ic_menu_05_nor"
+            bottom:selpic="@mipmap/ic_menu_05_hl"
+            bottom:text="吃"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_above="@id/ll_menuroot"
+        android:background="@color/aplablack"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_contner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/space"/>
+</RelativeLayout>

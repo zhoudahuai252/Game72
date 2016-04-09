@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.myapp.game72.WelcomActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/page_welcom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@mipmap/ic_guide_btn_normal"
+        android:gravity="center"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/ivtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/bg_logo_font"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/ivpiclog"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_above="@id/ivtext"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:src="@mipmap/ic_about_app"/>
+</RelativeLayout>
