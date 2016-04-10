@@ -74,7 +74,7 @@ public class MainActivity extends BaseActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         Fragment showFragment = null;//需要显示出来的fragment
 
-        //TODO 切换fragment
+        // 切换fragment
         if (mapFragments.containsKey(view.getId())) {//如果map中已经存在此fragment，把此fragment显示出来
             //并且隐藏前一个fragment
             if (lastFragment != null) {

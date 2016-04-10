@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.myapp.game72.R;
 import com.myapp.game72.base.BaseFragment;
+import com.myapp.game72.module.money.dao.ActivityCallback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,9 +22,9 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ImageFragment extends BaseFragment {
+public class ImageFragment extends BaseFragment implements View.OnClickListener {
 
-
+    private ActivityCallback callback;
     private ViewPager viewPager;
     private String[] strUrl;
     private List<ImageView> imageList;
@@ -40,6 +41,7 @@ public class ImageFragment extends BaseFragment {
 
     @Override
     protected void init() {
+        callback= (ActivityCallback) getActivity();
         String urls = getArguments().getString("urls");
         if (!TextUtils.isEmpty(urls)) {
             strUrl = urls.split(",");
@@ -49,6 +51,7 @@ public class ImageFragment extends BaseFragment {
                 ImageView imageview = new ImageView(getActivity());
                 imageview.setScaleType(ImageView.ScaleType.FIT_XY);
                 Picasso.with(getActivity()).load(strUrl[i]).into(imageview);
+                imageview.setOnClickListener(this);
                 imageList.add(imageview);
             }
 
@@ -85,5 +88,15 @@ public class ImageFragment extends BaseFragment {
     @Override
     protected void loadData() {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        for (int i = 0; i < imageList.size(); i++) {
+            if (imageList.get(i)==v){
+                //回调给activity处理
+                callback.callback(i);
+            }
+        }
     }
 }

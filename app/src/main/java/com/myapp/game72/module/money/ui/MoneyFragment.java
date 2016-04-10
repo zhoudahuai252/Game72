@@ -93,16 +93,18 @@ public class MoneyFragment extends BaseFragment {
                 });
             }
         });
-       /* listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //跳转到详细页
-                Log.d("MoneyFragment", "setOnItemClickListener");
+                Log.d("MoneyFragment", "setOnItemClickListener" + "--->" + position);
                 Intent intent = new Intent(getActivity(), MoneyDetaiActivity.class);
-                intent.putExtra("id", moneyList.get(position).getId());
+                String ids = moneyList.get(position-1).getId();
+
+                intent.putExtra("id", ids);
                 startActivity(intent);
             }
-        });*/
+        });
     }
 
     @Override
