@@ -7,15 +7,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.lidroid.xutils.exception.DbException;
+import com.myapp.game72.MyApplication;
 import com.myapp.game72.R;
 import com.myapp.game72.base.BaseFragment;
 import com.myapp.game72.common.adapter.CommonAdapter;
 import com.myapp.game72.common.adapter.ViewHolder;
+import com.myapp.game72.common.constant.Constant;
+import com.myapp.game72.module.money.bean.InfoEntity;
 import com.myapp.game72.module.money.bean.MoneyData;
 import com.myapp.game72.module.money.dao.MoneyDao;
 import com.orhanobut.logger.Logger;
@@ -27,8 +30,8 @@ public class MoneyFragment extends BaseFragment {
 
     private EditText editText;
     private PullToRefreshListView listView;
-    private List<MoneyData.InfoEntity> moneyList;
-    private CommonAdapter<MoneyData.InfoEntity> adapter;
+    private List<InfoEntity> moneyList;
+    private CommonAdapter<InfoEntity> adapter;
     private int page = 1;
 
     @Override
@@ -44,6 +47,7 @@ public class MoneyFragment extends BaseFragment {
 
     @Override
     protected void init() {
+
         moneyList = new ArrayList<>();
         adapter = new MyMoneyAdapter(getActivity(), moneyList,
                 R.layout.layout_item_list_money);
@@ -57,7 +61,11 @@ public class MoneyFragment extends BaseFragment {
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(final PullToRefreshBase<ListView> refreshView) {
-
+                boolean flag =  Constant.checkNetworkAvailable(getActivity());
+                if (!flag){
+                    refreshView.onRefreshComplete();
+                    return;
+                }
                 MoneyDao.getMoneyData(1 + "", new MoneyDao.MoneyCallback() {
                     @Override
                     public void callback(MoneyData moneyData) {
@@ -74,9 +82,15 @@ public class MoneyFragment extends BaseFragment {
 
             @Override
             public void onPullUpToRefresh(final PullToRefreshBase<ListView> refreshView) {
+                boolean flag =  Constant.checkNetworkAvailable(getActivity());
+                if (!flag){
+                    refreshView.onRefreshComplete();
+                    return;
+                }
                 MoneyDao.getMoneyData((page + 1) + "", new MoneyDao.MoneyCallback() {
                     @Override
                     public void callback(MoneyData moneyData) {
+
                         int size = moneyData.getInfo().size();
                         if (size == 0) {
                             Toast.makeText(getActivity(), "没有更多", Toast.LENGTH_SHORT).show();
@@ -99,7 +113,7 @@ public class MoneyFragment extends BaseFragment {
                 //跳转到详细页
                 Log.d("MoneyFragment", "setOnItemClickListener" + "--->" + position);
                 Intent intent = new Intent(getActivity(), MoneyDetaiActivity.class);
-                String ids = moneyList.get(position-1).getId();
+                String ids = moneyList.get(position - 1).getId();
 
                 intent.putExtra("id", ids);
                 startActivity(intent);
@@ -109,25 +123,43 @@ public class MoneyFragment extends BaseFragment {
 
     @Override
     protected void loadData() {
-        MoneyDao.getMoneyData(1 + "", new MoneyDao.MoneyCallback() {
-            @Override
-            public void callback(MoneyData moneyData) {
-                Log.d("MoneyFragment", moneyData.toString());
-                moneyList.addAll(moneyData.getInfo());
-                Log.d("MoneyFragment", "--->" + moneyList.size());
+        boolean flag =  Constant.checkNetworkAvailable(getActivity());
+        if (flag) {
+            MoneyDao.getMoneyData(1 + "", new MoneyDao.MoneyCallback() {
+                @Override
+                public void callback(MoneyData moneyData) {
+                    Log.d("MoneyFragment", moneyData.toString());
+                    //把数据更新到数据库中
+                    try {
+                        MyApplication.dbUtils.saveAll(moneyData.getInfo());
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
+                    moneyList.addAll(moneyData.getInfo());
+                    Log.d("MoneyFragment", "--->" + moneyList.size());
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }else {
+            //从数据库中加载
+            try {
+                List<InfoEntity> entities = MyApplication.dbUtils.findAll(InfoEntity.class);
+                moneyList.addAll(entities);
                 adapter.notifyDataSetChanged();
+            } catch (DbException e) {
+                e.printStackTrace();
             }
-        });
+        }
 
     }
 
-    private class MyMoneyAdapter extends CommonAdapter<MoneyData.InfoEntity> {
-        public MyMoneyAdapter(Context context, List<MoneyData.InfoEntity> mDatas, int itemLayoutId) {
+    private class MyMoneyAdapter extends CommonAdapter<InfoEntity> {
+        public MyMoneyAdapter(Context context, List<InfoEntity> mDatas, int itemLayoutId) {
             super(context, mDatas, itemLayoutId);
         }
 
         @Override
-        public void convert(ViewHolder helper, int position, MoneyData.InfoEntity item) {
+        public void convert(ViewHolder helper, int position, InfoEntity item) {
             Log.e("print", "----->" + item.getName());
             helper.setText(R.id.tv_money_name, item.getName());
             helper.setText(R.id.tv_allprivce, item.getAll_prize() + "金币");

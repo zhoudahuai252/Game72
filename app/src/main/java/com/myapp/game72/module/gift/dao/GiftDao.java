@@ -5,7 +5,6 @@ import com.myapp.game72.base.NetCallback;
 import com.myapp.game72.common.constant.Constant;
 import com.myapp.game72.common.net.HttpNet;
 import com.myapp.game72.module.gift.bean.GiftBean;
-import com.myapp.game72.module.money.bean.MoneyData;
 import com.orhanobut.logger.Logger;
 
 import java.util.HashMap;
