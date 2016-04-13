@@ -61,8 +61,8 @@ public class MoneyFragment extends BaseFragment {
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(final PullToRefreshBase<ListView> refreshView) {
-                boolean flag =  Constant.checkNetworkAvailable(getActivity());
-                if (!flag){
+                boolean flag = Constant.checkNetworkAvailable(getActivity());
+                if (!flag) {
                     refreshView.onRefreshComplete();
                     return;
                 }
@@ -72,6 +72,12 @@ public class MoneyFragment extends BaseFragment {
                         page = 1;
                         Log.d("MoneyFragment", moneyData.toString());
                         moneyList.clear();
+                        //把数据更新到数据库中
+                        try {
+                            MyApplication.dbUtils.saveAll(moneyData.getInfo());
+                        } catch (DbException e) {
+                            e.printStackTrace();
+                        }
                         moneyList.addAll(moneyData.getInfo());
                         Log.d("MoneyFragment", "--->" + moneyList.size());
                         adapter.notifyDataSetChanged();
@@ -82,8 +88,8 @@ public class MoneyFragment extends BaseFragment {
 
             @Override
             public void onPullUpToRefresh(final PullToRefreshBase<ListView> refreshView) {
-                boolean flag =  Constant.checkNetworkAvailable(getActivity());
-                if (!flag){
+                boolean flag = Constant.checkNetworkAvailable(getActivity());
+                if (!flag) {
                     refreshView.onRefreshComplete();
                     return;
                 }
@@ -100,6 +106,12 @@ public class MoneyFragment extends BaseFragment {
                         page++;
                         Logger.d("--->" + size + "");
                         Logger.d("--->" + page + "");
+                        //把数据更新到数据库中
+                        try {
+                            MyApplication.dbUtils.saveAll(moneyData.getInfo());
+                        } catch (DbException e) {
+                            e.printStackTrace();
+                        }
                         moneyList.addAll(moneyData.getInfo());
                         adapter.notifyDataSetChanged();
                         refreshView.onRefreshComplete();
@@ -123,7 +135,7 @@ public class MoneyFragment extends BaseFragment {
 
     @Override
     protected void loadData() {
-        boolean flag =  Constant.checkNetworkAvailable(getActivity());
+        boolean flag = Constant.checkNetworkAvailable(getActivity());
         if (flag) {
             MoneyDao.getMoneyData(1 + "", new MoneyDao.MoneyCallback() {
                 @Override
@@ -140,7 +152,7 @@ public class MoneyFragment extends BaseFragment {
                     adapter.notifyDataSetChanged();
                 }
             });
-        }else {
+        } else {
             //从数据库中加载
             try {
                 List<InfoEntity> entities = MyApplication.dbUtils.findAll(InfoEntity.class);
