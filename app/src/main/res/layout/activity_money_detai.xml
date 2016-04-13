@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.myapp.game72.module.money.ui.MoneyDetaiActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.myapp.game72.module.money.ui.MoneyDetaiActivity">
 
     <ImageView
         android:id="@+id/iv_top"
@@ -11,18 +11,14 @@
         android:layout_height="150dp"
         android:clickable="true"
         android:scaleType="centerCrop"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"/>
 
-    <FrameLayout
-        android:id="@+id/fl_contener"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
     <FrameLayout
         android:id="@+id/fl_base_con"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/iv_top" />
+        android:layout_below="@id/iv_top"/>
 
     <LinearLayout
         android:id="@+id/ll_mid"
@@ -35,7 +31,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginLeft="10dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -47,28 +43,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="游戏名称"
-                android:textSize="20sp" />
+                android:textSize="20sp"/>
 
             <RatingBar
                 android:layout_width="wrap_content"
                 android:layout_height="10dp"
                 android:isIndicator="true"
                 android:numStars="5"
-                android:progressDrawable="@drawable/layer_ratingbar" />
+                android:progressDrawable="@drawable/layer_ratingbar"/>
 
             <TextView
-                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="版本啊"
-                android:textSize="10sp" />
+                android:textSize="10sp"/>
         </LinearLayout>
     </LinearLayout>
+
     <RadioGroup
-        android:layout_below="@id/ll_mid"
         android:id="@+id/rg_chose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/ll_mid"
         android:layout_marginTop="15dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
@@ -93,10 +90,11 @@
             android:background="@drawable/seletor_rb_gift"
             android:button="@null"
             android:gravity="center"
-            android:text="游戏礼包"
             android:padding="5dp"
+            android:text="游戏礼包"
             android:textColor="@color/seletor_rb_gift_color"
             android:textSize="10sp"/>
+
         <RadioButton
             android:id="@+id/rb_r6"
             android:layout_width="100dp"
@@ -104,9 +102,14 @@
             android:background="@drawable/seletor_rb_gift"
             android:button="@null"
             android:gravity="center"
-            android:text="评论"
             android:padding="5dp"
+            android:text="评论"
             android:textColor="@color/seletor_rb_gift_color"
             android:textSize="10sp"/>
     </RadioGroup>
+
+    <FrameLayout
+        android:id="@+id/fl_contener"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </RelativeLayout>
