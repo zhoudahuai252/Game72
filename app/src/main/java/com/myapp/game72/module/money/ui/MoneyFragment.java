@@ -2,9 +2,11 @@ package com.myapp.game72.module.money.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -12,6 +14,11 @@ import android.widget.Toast;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.lidroid.xutils.exception.DbException;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest;
 import com.myapp.game72.MyApplication;
 import com.myapp.game72.R;
 import com.myapp.game72.base.BaseFragment;
@@ -162,7 +169,53 @@ public class MoneyFragment extends BaseFragment {
                 e.printStackTrace();
             }
         }
+        isUpdate();
+        showDiag();
 
+    }
+
+    private void showDiag() {
+        View view = View.inflate(getActivity(), R.layout.layout_diag_update, null);
+        Button btnDown = (Button) view.findViewById(R.id.btn_down);
+        Button btnCanle = (Button) view.findViewById(R.id.btn_cancel);
+        final AlertDialog dialg = new AlertDialog.Builder(getActivity())
+                .setView(view)
+                .create();
+        dialg.show();
+        btnCanle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialg.dismiss();
+            }
+        });
+        btnDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //下载操作更新进度
+            }
+        });
+    }
+
+    private void isUpdate() {
+        //判断是否有更新
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("platform", "2");
+        params.addBodyParameter("ver", "v1.0.0");
+        MyApplication.mHttpUtils.send(HttpRequest.HttpMethod.POST,
+                "http://zhushou.72g.com/app/common/upgrade/", params
+                , new RequestCallBack<String>() {
+
+                    @Override
+                    public void onSuccess(ResponseInfo<String> responseInfo) {
+                        Log.d("myapp",responseInfo.toString());
+
+                    }
+
+                    @Override
+                    public void onFailure(HttpException error, String msg) {
+                        Logger.e(msg);
+                    }
+                });
     }
 
     private class MyMoneyAdapter extends CommonAdapter<InfoEntity> {

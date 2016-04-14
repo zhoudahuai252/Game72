@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class MeFragment extends BaseFragment {
 
-    private FloatingActionButton fab;
+    //    private FloatingActionButton fab;
     private TextView tvNickName;
 
     @Override
@@ -27,7 +27,7 @@ public class MeFragment extends BaseFragment {
 
     @Override
     protected void findViews(View view) {
-        fab = (FloatingActionButton) view.findViewById(R.id.fab_icon);
+//        fab = (FloatingActionButton) view.findViewById(R.id.fab_icon);
         tvNickName = (TextView) view.findViewById(R.id.tv_nickname);
     }
 
@@ -46,7 +46,7 @@ public class MeFragment extends BaseFragment {
             Logger.d("!null");
             LoginApiInfo.InfoEntity infoEntity = info.getInfo();
             tvNickName.setText(infoEntity.getNickname());
-            Picasso.with(getActivity()).load(infoEntity.getHpic()).into(fab);
+//            Picasso.with(getActivity()).load(infoEntity.getHpic()).into(fab);
         }
     }
 

@@ -40,6 +40,7 @@ public class MainActivity extends BaseActivity {
     protected void init() {
         mapFragments = new HashMap<>();
         Intent intent = getIntent();
+
         if (intent.getIntExtra("num", 0) == 0) {
             mMenoyMenu.performClick();//第一次进入页面时，默认选择第一个按钮
         } else {
